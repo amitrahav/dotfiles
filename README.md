@@ -1,8 +1,8 @@
-# ~nicksp 🌮
+# Amit Rahav
 
-My personal dotfiles for configuring macOS with Zsh and Homebrew.
+My personal dotfiles for configuring macOS with Zsh and Homebrew (based on [nicksp](https://github.com/nicksp/dotfiles)).
 
-![nicksp terminal](screenshot.png)
+![the terminal](screenshot.png)
 
 > [!IMPORTANT]
 > Please only open pull requests that fix bugs or add improvements without any breaking changes.
