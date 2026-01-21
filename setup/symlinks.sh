@@ -40,8 +40,18 @@ symlink_file() {
   local skip
   local action
 
+  local test_dir=$(dirname "$dst")
+  while [ ! -e "$test_dir" ]; do
+    test_dir=$(dirname "$test_dir")
+  done
+
+  local run_sudo=""
+  if [ ! -w "$test_dir" ]; then
+    run_sudo="sudo"
+  fi
+
   if [ ! -d "$(dirname "$dst")" ]; then
-    mkdir -p "$(dirname "$dst")"
+    $run_sudo mkdir -p "$(dirname "$dst")"
   fi
 
   # First, check if the destination file or folder exists
@@ -74,10 +84,10 @@ symlink_file() {
   # "false" or empty
   if [ "$skip" != "true" ]; then
     if [ "$isHardLink" = true ]; then
-        ln -f "$1" "$2"
+        $run_sudo ln -f "$1" "$2"
         success "hard linked $1 to $2"
     else
-        ln -sf "$1" "$2"
+        $run_sudo ln -sf "$1" "$2"
         success "symlinked $1 to $2"
     fi
   else
@@ -120,12 +130,12 @@ handle_existing_file() {
   skip=${skip:-$skip_all}
 
   if [ "$overwrite" == "true" ]; then
-    rm -rf "$dst"
+    $run_sudo rm -rf "$dst"
     success "removed $dst"
   fi
 
   if [ "$backup" == "true" ]; then
-    mv "$dst" "${dst}.backup"
+    $run_sudo mv "$dst" "${dst}.backup"
     success "moved $dst to ${dst}.backup"
   fi
 }
@@ -200,6 +210,7 @@ install_extras() {
   }
   # Enable settings sync from dotfiles
   vscode_user_folder="$HOME/Library/Application Support/Code/User"
+  mkdir -p "$(dirname "$vscode_user_folder")"
   rm -rf "$vscode_user_folder"
   ln -sfn "$DOTFILES_DIR/vscode/User" "$vscode_user_folder"
 
@@ -213,6 +224,7 @@ install_extras() {
   }
   # Enable settings sync from dotfiles
   cursor_user_folder="$HOME/Library/Application Support/Cursor/User"
+  mkdir -p "$(dirname "$cursor_user_folder")"
   rm -rf "$cursor_user_folder"
   ln -sfn "$DOTFILES_DIR/cursor/User" "$cursor_user_folder"
 
@@ -245,7 +257,7 @@ install_extras() {
   # AI agents
   #
 
-  LLMS_FILENAME="agent-instructions.md"
+  LLMS_FILENAME="agent.md"
   LLMS_COMMANDS_DIR="$DOTFILES_DIR/ai-agents/commands"
   LLMS_AGENTS_DIR="$DOTFILES_DIR/ai-agents/claude-code/agents"
   LLMS_INSTRUCTIONS="$DOTFILES_DIR/ai-agents/$LLMS_FILENAME"

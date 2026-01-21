@@ -67,12 +67,8 @@ npm config set fund false
 
 # Npm packages
 packages=(
-  npm-upgrade
-  aws-cdk
-  serverless
   @anthropic-ai/claude-code
-  @sourcegraph/amp
-  @kilocode/cli
-  @antfu/ni
+  # @sourcegraph/amp
+  # @kilocode/cli
 )
 npm install -g "${packages[@]}"

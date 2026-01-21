@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install a Node.js version required in the project's `.nvmrc` file.
-# > Note: Uses `fnm` to manage Node.js versions.
+# > Note: Uses `bun` to manage Node.js versions.
 #
 # - Switch to a project’s Node.js version:
 #
@@ -16,9 +16,9 @@
 # License: MIT
 # https://github.com/nicksp/dotfiles
 
-command -v fnm &> /dev/null || {
-  echo >&2 "fnm is not installed: brew install fnm"
+command -v bun &> /dev/null || {
+  echo >&2 "bun is not installed: curl -fsSL https://bun.com/install | bash"
   exit 1
 }
 
-fnm use --install-if-missing
+bun use --install-if-missing

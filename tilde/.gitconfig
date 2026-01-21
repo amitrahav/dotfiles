@@ -3,9 +3,9 @@
 # general config
 
 [user]
-  name = Nick Plekhanov
-  email = nicksp@users.noreply.github.com
-  signingKey = 77258BB2E99B579D
+	name = Amit Rahav
+	email = amit.r.89@gmail.com
+	signingkey = 10253A935B0FDBDD
 
 [github]
   user = nicksp
@@ -99,7 +99,7 @@
   # Custom template for new commit messages
   template = ~/.gitmessage
   # Sign all commits by default
-  gpgSign = true
+	gpgsign = true
 
 [tag]
   # Sign all tags by default

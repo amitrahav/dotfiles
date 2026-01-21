@@ -9,8 +9,8 @@ else
   exit 0
 fi
 
-COMPUTERNAME='Nick M1 Air'
-LOCALHOSTNAME='nickmac.air'
+COMPUTERNAME='Amit M4 Mini'
+LOCALHOSTNAME='amitm4mini'
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -36,7 +36,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 sudo nvram SystemAudioVolume="%80"
 
 # Menu bar: disable transparency
-defaults write com.apple.universalaccess reduceTransparency -bool true
+# defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Menu bar: hide percentage
 defaults write com.apple.menuextra.battery ShowPercent -string "NO"
@@ -69,13 +69,13 @@ defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
 # Disable opening and closing window animations
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+# defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 
 # Fill window when double-clicking its title bar
 defaults write NSGlobalDomain AppleActionOnDoubleClick -string "Fill"
 
 # Disable the “Are you sure you want to open this application?” dialog
-defaults write com.apple.LaunchServices LSQuarantine -bool false
+# defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 # Disable the crash reporter
 defaults write com.apple.CrashReporter DialogType -string "none"
@@ -96,7 +96,7 @@ defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool true
 
 # Disable auto-correct
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+# defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 ###############################################################################
 # Trackpad, mouse, keyboard, and input                                        #
@@ -106,9 +106,9 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
 # Trackpad: disable swipe between pages
-defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false
-defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -int 0
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+# defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false
+# defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -int 0
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 0
 
 # Enable full keyboard access for all controls
 # (e.g. enable Tab in modal dialogs)
@@ -123,71 +123,76 @@ defaults write NSGlobalDomain KeyRepeat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # Set language and text formats
-defaults write NSGlobalDomain AppleLanguages -array "en-US" "ru-RU"
-defaults write NSGlobalDomain AppleLocale -string "en_US@rg=ruzzzz"
+defaults write NSGlobalDomain AppleLanguages -array "en-US" "he-IL"
+defaults write NSGlobalDomain AppleLocale -string "he_IL@rg=il"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleTemperatureUnit -string "Celsius"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 # Set the timezone; see `sudo systemsetup -listtimezones` for other values
-#sudo systemsetup -settimezone "Europe/Brussels" > /dev/null
+sudo systemsetup -settimezone "Asia/Jerusalem" > /dev/null
 
 # Don't illuminate built-in MacBook keyboard in low light
 defaults write com.apple.BezelServices kDim -bool false
 # Turn off keyboard backlight when computer is not used for 5 minutes
-defaults write com.apple.BezelServices kDimTime -int 300
+# defaults write com.apple.BezelServices kDimTime -int 300
 
-###############################################################################
-# Energy saving                                                               #
-###############################################################################
+# Battery settings: will run only if the device has a battery (not for desktops)
+if pmset -g batt | grep -q "InternalBattery"; then
+    ###############################################################################
+    # Energy saving                                                               #
+    ###############################################################################
 
-# Enable lid wakeup
-sudo pmset -a lidwake 1
+    # Enable lid wakeup
+    # sudo pmset -a lidwake 1
 
-# Restart automatically after shutdown due to a power failure or system crash
-sudo pmset -a autorestart 1
+    # Restart automatically after shutdown due to a power failure or system crash
+    sudo pmset -a autorestart 1
 
-# Put the hard disk(s) to sleep when possible: 10 min
-sudo pmset -a disksleep 10
+    # Put the hard disk(s) to sleep when possible: 10 min
+    sudo pmset -a disksleep 10
 
-# Disable wake for network access
-sudo pmset -a womp 0
+    # Disable wake for network access
+    sudo pmset -a womp 0
 
-# Battery
+    # Battery
 
-# Computer sleep: 10 min
-sudo pmset -b sleep 10
+    # Computer sleep: 10 min
+    sudo pmset -b sleep 10
 
-# Display sleep: 5 min
-sudo pmset -b displaysleep 5
+    # Display sleep: 5 min
+    sudo pmset -b displaysleep 5
 
-# Slightly dim the display on battery
-sudo pmset -b lessbright 1
+    # Slightly dim the display on battery
+    sudo pmset -b lessbright 1
 
-# Power Adapter
+    # Power Adapter
 
-# Computer sleep: 30 min
-sudo pmset -c sleep 30
+    # Computer sleep: 30 min
+    sudo pmset -c sleep 30
 
-# Display sleep: 15 min
-sudo pmset -c displaysleep 15
+    # Display sleep: 15 min
+    sudo pmset -c displaysleep 15
 
-# Hibernation mode
-# 0: Disable hibernation (speeds up entering sleep mode)
-# 3: Copy RAM to disk so the system state can still be restored in case of a
-#    power failure.
-sudo pmset -a hibernatemode 3
+    # Hibernation mode
+    # 0: Disable hibernation (speeds up entering sleep mode)
+    # 3: Copy RAM to disk so the system state can still be restored in case of a
+    #    power failure.
+    sudo pmset -a hibernatemode 3
+fi
 
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
 
 # Require password immediately after sleep or screen saver begins
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+# defaults write com.apple.screensaver askForPassword -int 1
+# defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+mkdir -p "$HOME/Screenshots"
 
 # Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "$HOME/Desktop"
+defaults write com.apple.screencapture location -string "$HOME/Screenshots"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type png
@@ -213,17 +218,17 @@ sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutio
 ###############################################################################
 
 # Enable Firewall Service
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+# sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
 # Enable Stealth Mode (Prevent others from discovering your Mac)
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+# sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
 
 # Finder: disable window animations and Get Info animations
-defaults write com.apple.finder DisableAllAnimations -bool true
+# defaults write com.apple.finder DisableAllAnimations -bool true
 
 # Set Downloads as the default location for new Finder windows
 defaults write com.apple.finder NewWindowTarget -string "PfLo"
@@ -258,7 +263,7 @@ defaults write com.apple.finder _FXSortFoldersFirst -bool true
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
 # Disable the warning when changing a file extension
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+# defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
 # Enable spring loading for directories
 defaults write NSGlobalDomain com.apple.springing.enabled -bool true
@@ -291,9 +296,9 @@ defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 #/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 
 # Increase the size of icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
 
 # Enable Stacks view on the desktop
 defaults write com.apple.finder DesktopViewSettings -dict-add GroupBy -string "Kind"
@@ -312,7 +317,7 @@ defaults write com.apple.finder EmptyTrashSecurely -bool true
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 
 # Finder: disable sounds
-# defaults write com.apple.finder FinderSounds -boolean false
+defaults write com.apple.finder FinderSounds -boolean false
 
 # Show the ~/Library folder
 chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
@@ -355,7 +360,7 @@ defaults write com.apple.dock show-process-indicators -bool true
 #defaults write com.apple.dock static-only -bool true
 
 # Don’t animate opening applications from the Dock
-defaults write com.apple.dock launchanim -bool false
+# defaults write com.apple.dock launchanim -bool false
 
 # Speed up Mission Control animations
 defaults write com.apple.dock expose-animation-duration -float 0.1
@@ -364,7 +369,7 @@ defaults write com.apple.dock expose-animation-duration -float 0.1
 defaults write com.apple.dock expose-group-by-app -bool true
 
 # Disable icon bouncing
-defaults write com.apple.dock no-bouncing -bool true
+# defaults write com.apple.dock no-bouncing -bool true
 
 # Automatically hide and show the Dock
 defaults write com.apple.dock autohide -bool true
@@ -373,7 +378,7 @@ defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0.5
 
 # Remove the animation when hiding/showing the Dock
-defaults write com.apple.dock autohide-time-modifier -float 0
+# defaults write com.apple.dock autohide-time-modifier -float 0
 
 # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock showhidden -bool true
@@ -419,11 +424,11 @@ defaults write com.apple.dock wvous-br-modifier -int 524288
 ###############################################################################
 
 # Disable send and reply animations in Mail.app
-#defaults write com.apple.mail DisableReplyAnimations -bool true
-#defaults write com.apple.mail DisableSendAnimations -bool true
+# defaults write com.apple.mail DisableReplyAnimations -bool true
+# defaults write com.apple.mail DisableSendAnimations -bool true
 
 # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
-#defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
+# defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
 #defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"
@@ -667,13 +672,13 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 ###############################################################################
 
 # Disable automatic emoji substitution (i.e. use plain text smileys)
-defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
+# defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
 
 # Disable smart quotes as it’s annoying for messages that contain code
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
 
 # Disable continuous spell checking
-defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
+# defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
 
 ###############################################################################
 # Kill affected applications                                                  #

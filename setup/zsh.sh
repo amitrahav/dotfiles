@@ -39,12 +39,12 @@ zsh_path=$(which zsh)
 # ensure zsh is a valid shell option
 if ! cat /etc/shells | grep $zsh_path > /dev/null; then
   title "Adding Zsh to list of allowed shells…"
-  sh -c "echo $zsh_path >> /etc/shells"
+  echo "$zsh_path" | sudo tee -a /etc/shells > /dev/null
   echo
 fi
 
 # Set the default shell to ZSH
-title "Changing your shell to $zsh_path…"
+title "Changing your shell to …"
 chsh -s "$zsh_path"
 echo "Your shell has been changed to zsh, please restart your terminal or tab"
 echo
